@@ -1,0 +1,11 @@
+name: SaveState
+main: net.gliewe.savestate.SaveStatePlugin
+version: 0.1
+depend: [WorldGuard, WorldEdit]
+commands:
+  savestate:
+    description: Saves state of object
+    usage: /savestate <object-id>
+  loadstate:
+    description: Loads state of object
+    usage: /loadstate <object-id>
