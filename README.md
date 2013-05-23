@@ -3,6 +3,9 @@ cbSaveState
 
 Player and Region save Plugin for Bukkit Server
 
+Download:
+    
+* Version 0.1 : <http://www.file-upload.net/download-7632473/cbSaveState-0.1.jar.html>
 
 Usage
 -----
