@@ -4,8 +4,10 @@ cbSaveState
 Player and Region save Plugin for Bukkit Server
 
 Download:
-    
+
+* Version 0.2 : <http://www.file-upload.net/download-7633344/cbSaveState-0.2.jar.html>
 * Version 0.1 : <http://www.file-upload.net/download-7632473/cbSaveState-0.1.jar.html>
+
 
 Usage
 -----
@@ -28,8 +30,17 @@ In case of *"-t player"*, the default Value is the player wich issued the comman
 
 #### Option **"-t"**
 
-Can be *"player"* or *"region"*.
+Can be *"player"* / *"p"* or *"region"* / *"r"*.
 
 #### Option **"-n"**
 
 A peace of the filename to handle multible States.
+This is optional.
+
+## Changelog:
+
+### V-0.2 2013-05-24:
+
+    * Default Value for "name" argument
+    * Shortcut for player -> p and region -> r
+    * Fixed "WGRegion.getSize()" bug

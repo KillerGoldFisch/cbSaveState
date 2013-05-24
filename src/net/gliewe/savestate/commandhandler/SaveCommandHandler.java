@@ -21,7 +21,9 @@ package net.gliewe.savestate.commandhandler;
  * Date: 2013-05-23
  *
  * Changelog:
- *      no changes
+ *      V-0.1 2013-05-24:
+ *          * Default Value for "name" argument
+ *          * Shortcut for player -> p and region -> r
  */
 
 import com.github.ryenus.rop.OptionParser;
@@ -60,13 +62,17 @@ public class SaveCommandHandler implements CommandExecutor {
             SaveCommand p = parser.get(SaveCommand.class);
             parser.parse(args, sender).get(p);
 
-            /* type and name can not be null */
-            if(p.type == null || p.name == null) {
+            /* type can not be null */
+            if(p.type == null) {
                 parser.showHelp(sender);
                 return true;
             }
 
-            if(p.type.equalsIgnoreCase("player")){
+            /* if no name is set, use "default" */
+            if(p.name == null)
+                p.name = "default";
+
+            if(p.type.equalsIgnoreCase("player") || p.type.equalsIgnoreCase("p")){
 
                 ////////////////////////////////// PLAYER /////////////////////////////////////////
                 /*********************************************************************************/
@@ -91,7 +97,7 @@ public class SaveCommandHandler implements CommandExecutor {
 
                 /*********************************************************************************/
 
-            } else if(p.type.equalsIgnoreCase("region")) {
+            } else if(p.type.equalsIgnoreCase("region") || p.type.equalsIgnoreCase("r")) {
 
                 ////////////////////////////////// REGION /////////////////////////////////////////
                 /*********************************************************************************/

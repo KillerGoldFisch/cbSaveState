@@ -21,7 +21,8 @@ package net.gliewe.savestate.utils;
  * Date: 2013-05-23
  *
  * Changelog:
- *      no changes
+ *      V-0.1 2013-05-24:
+ *          * Fixed "WGRegion.getSize()" bug
  */
 
 import com.sk89q.worldedit.MaxChangedBlocksException;
@@ -95,9 +96,9 @@ public class WGRegion {
 
     public Vector getSize() {
         return new Vector(
-                this.getXmax() - this.getXmin(),
-                this.getYmax() - this.getYmin(),
-                this.getZmax() - this.getZmin()
+                this.getXmax() - this.getXmin() + 1,
+                this.getYmax() - this.getYmin() + 1,
+                this.getZmax() - this.getZmin() + 1
         );
     }
 
