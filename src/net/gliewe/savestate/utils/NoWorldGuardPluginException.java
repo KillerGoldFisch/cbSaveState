@@ -3,20 +3,17 @@ package net.gliewe.savestate.utils;
 /**
  * SaveState - Player an Region save Plugin for Bukkit Server
  *
- * Copyright (C) 2013 Kevin Gliewe
+ * (C) Copyright Kevin Gliewe (http://gliewe.net/)
  *
- * This file is part of SaveState.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License
+ * (LGPL) version 2.1 which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/lgpl-2.1.html
  *
- * "SaveState" is free software: you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation, either version 2 of the
- * License, or (at your option) any later version.
- *
- * "SaveState" is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- *
- * See the GNU General Public License for more details. You should have received a copy of the GNU
- * General Public License along with SaveState. If not, see <http://www.gnu.org/licenses/>.
- *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
  * Authors: Kevin Gliewe
  * Date: 2013-05-23
  *

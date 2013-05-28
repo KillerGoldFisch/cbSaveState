@@ -1,4 +1,6 @@
-package net.gliewe.savestate.commandhandler;
+package net.gliewe.savestate.utils.Rules;
+
+import org.bukkit.entity.Player;
 
 /**
  * SaveState - Player an Region save Plugin for Bukkit Server
@@ -15,22 +17,27 @@ package net.gliewe.savestate.commandhandler;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
  * Authors: Kevin Gliewe
- * Date: 2013-05-23
+ * Date: 2013-05-28
  *
  * Changelog:
  *      no changes
  */
 
-import com.github.ryenus.rop.OptionParser;
-
-@OptionParser.Command(name = "load", descriptions="restore object from disc")
-public class LoadCommand {
-    @OptionParser.Option(description = "object ID", opt = { "-o", "--object" })
-    String object;
-
-    @OptionParser.Option(description = "Name of save", opt = { "-n", "--name" })
-    String name;
-
-    @OptionParser.Option(description = "Type of object (player|region)", opt = {"-t", "--type" } )
-    String type;
+public interface ISavePlayerStateRule {
+    String getName();
+    int getNameMatch(String savename);
+    int getPlayerMatch(Player player);
+    boolean getSaveLocation();
+    boolean getSaveIsflying();
+    boolean getSaveGamemode();
+    boolean getSaveFalldistance();
+    boolean getSaveFireticks();
+    boolean getSaveVelocity();
+    boolean getSaveHealth();
+    boolean getSaveFoodlevel();
+    boolean getSaveExp();
+    boolean getSaveLevel();
+    boolean getSaveArmor();
+    boolean getSaveInventory();
+    boolean getSavePotions();
 }

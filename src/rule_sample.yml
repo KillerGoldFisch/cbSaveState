@@ -1,0 +1,48 @@
+#Savename RegEx pattern
+savename: ^test[\d]+$
+
+#Playername RegEx pattern
+playername: ^[\S]+$
+
+#In any rule is not in this List,
+#this default Value will be used.
+default: false
+
+#Save the location of the Player
+location: true
+
+#Save if the player is flying
+isflying: true
+
+#Save the gamemode of the player
+gamemode: true
+
+#Save the current falldistance of the Player
+falldistance: true
+
+#Save the fireticks of the Player
+fireticks: true
+
+#Save the velocity of the Player
+velocity: true
+
+#Save the heathbar of the Player
+health: true
+
+#Save the foodlevel of the Player
+foodlevel: true
+
+#Save the experience of the Player
+exp: true
+
+#Save the level of the Player
+level: true
+
+#Save the armor-inventory of the Player
+armor: true
+
+#Save the inventory of the Player (not the armor)
+inventory: true
+
+#Save the potion effect of the Player
+potions: true
