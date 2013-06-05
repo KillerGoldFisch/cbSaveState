@@ -18,7 +18,8 @@ package net.gliewe.savestate.utils;
  * Date: 2013-05-23
  *
  * Changelog:
- *      no changes
+ *      V-0.3.2 2013-06-04:
+ *          - Added World definition to "getRegionFormId()"
  */
 
 import com.sk89q.worldedit.Vector;
@@ -95,14 +96,38 @@ public class WorldGuardUtils {
         return ProtectedRegion.isValidId(id);
     }
 
-    //Von der Region-ID wird die Region und die World gefunden
+    /**
+     *
+     * @param regionid
+     * @return
+     * @throws NoWorldGuardPluginException
+     */
     public static WGRegion getRegionFormId(String regionid) throws NoWorldGuardPluginException {
-        for(World world : Bukkit.getWorlds()){
-            RegionManager regionManager = getWorldGuard().getRegionManager(world);
-            if(regionManager.hasRegion(regionid)) {
-                return new WGRegion(regionid, world, regionManager.getRegion(regionid));
+
+        //You can use something like "world::regionid"
+        String[] splited = regionid.split("::");
+
+
+        if(splited.length < 2) {
+            //If there is only the region-id
+            for(World world : Bukkit.getWorlds()){
+                RegionManager regionManager = getWorldGuard().getRegionManager(world);
+                if(regionManager.hasRegion(regionid)) {
+                    return new WGRegion(regionid, world, regionManager.getRegion(regionid));
+                }
+            }
+        } else if(splited.length == 2) {
+            //If there is the World and the region-id
+            World world = Bukkit.getWorld(splited[0]);
+            if(world != null){
+                RegionManager regionManager = getWorldGuard().getRegionManager(world);
+                if(regionManager.hasRegion(splited[1])) {
+                    return new WGRegion(regionid, world, regionManager.getRegion(splited[1]));
+                }
             }
         }
+
+
         return null;
     }
 }

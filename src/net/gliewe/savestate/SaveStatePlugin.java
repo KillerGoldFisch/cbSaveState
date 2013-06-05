@@ -18,15 +18,24 @@ package net.gliewe.savestate;
  * Date: 2013-05-23
  *
  * Changelog:
+ *      V-0.3.2 2013-06-04:
+ *          - Toggleable reporting
+ *          - Config
+ *
+ *      V-0.3.1 2013-06-02:
+ *          - added Error Reporting
+ *
  *      V-0.3 2013-05-28:
  *          - added javadoc
  *          - added the rule-function
+ *
  */
 
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.data.DataException;
 import net.gliewe.savestate.commandhandler.LoadCommandHandler;
 import net.gliewe.savestate.commandhandler.SaveCommandHandler;
+import net.gliewe.savestate.utils.ErrorReporter;
 import net.gliewe.savestate.utils.PlayerUtils;
 import net.gliewe.savestate.utils.Rules.ISavePlayerStateRule;
 import net.gliewe.savestate.utils.Rules.SavePlayerStateRuleManager;
@@ -42,23 +51,43 @@ public class SaveStatePlugin extends JavaPlugin {
 
     public static SaveStatePlugin getInstance() { return _instance; }
 
+    private ErrorReporter _reporter;
+
     @Override
     public void onEnable(){
-        _instance = this;
+        this.saveDefaultConfig();
 
-        if(!this.getDataFolder().exists())
-            this.getDataFolder().mkdirs();
+        if(_reporter == null)
+            _reporter = new ErrorReporter(this,
+                    this.getConfig().getBoolean("reporting"));
 
-        SavePlayerStateRuleManager.INIT(this);
+        try{
+            _instance = this;
 
-        getCommand("savestate").setExecutor(new SaveCommandHandler(this));
-        getCommand("loadstate").setExecutor(new LoadCommandHandler(this));
+            if(!this.getDataFolder().exists())
+                this.getDataFolder().mkdirs();
+
+            SavePlayerStateRuleManager.INIT(this);
+
+            getCommand("savestate").setExecutor(new SaveCommandHandler(this));
+            getCommand("loadstate").setExecutor(new LoadCommandHandler(this));
+
+        }catch (IOException ex) {
+            ex.printStackTrace();
+            _reporter.report(ex);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            _reporter.report(ex);
+            throw ex;
+        }
     }
 
     @Override
     public void onDisable() {
         _instance = null;
     }
+
+    public ErrorReporter getErrorReporter() { return _reporter; }
 
     /**
      * Saves the state of the player to drive,
@@ -70,7 +99,13 @@ public class SaveStatePlugin extends JavaPlugin {
      * @throws IOException  If the File can't de created
      */
     public void SavePlayerState(Player player, String nameofsave) throws IOException {
-        PlayerUtils.savePlayerState(player, nameofsave);
+        try{
+            PlayerUtils.savePlayerState(player, nameofsave);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            _reporter.report(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -82,7 +117,13 @@ public class SaveStatePlugin extends JavaPlugin {
      * @return             returns "false" if the savename does not exists
      */
     public boolean LoadPlayerState(Player player, String nameofsave) {
-        return PlayerUtils.loadPlayerState(player, nameofsave);
+        try{
+            return PlayerUtils.loadPlayerState(player, nameofsave);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            _reporter.report(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -95,7 +136,13 @@ public class SaveStatePlugin extends JavaPlugin {
      * @throws MaxChangedBlocksException  If the Region is too big
      */
     public void SaveRegionState(WGRegion region, String nameofsave) throws DataException, IOException, MaxChangedBlocksException {
-        region.Save(nameofsave);
+        try{
+            region.Save(nameofsave);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            _reporter.report(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -109,7 +156,13 @@ public class SaveStatePlugin extends JavaPlugin {
      * @throws MaxChangedBlocksException    If the Region is too big
      */
     public boolean LoadRegionState(WGRegion region, String nameofsave) throws DataException, IOException, MaxChangedBlocksException {
-        return region.Load(nameofsave);
+        try{
+            return region.Load(nameofsave);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            _reporter.report(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -118,7 +171,13 @@ public class SaveStatePlugin extends JavaPlugin {
      * @param rule  The new Rule
      */
     public void RegisterRule(ISavePlayerStateRule rule) {
-        SavePlayerStateRuleManager.getInstance().registerRule(rule);
+        try{
+            SavePlayerStateRuleManager.getInstance().registerRule(rule);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            _reporter.report(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -128,7 +187,13 @@ public class SaveStatePlugin extends JavaPlugin {
      * @return      Returns "true" if the Rule is removed
      */
     public boolean RemoveRule(ISavePlayerStateRule rule) {
-        return SavePlayerStateRuleManager.getInstance().removeRule(rule);
+        try{
+            return SavePlayerStateRuleManager.getInstance().removeRule(rule);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            _reporter.report(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -138,7 +203,13 @@ public class SaveStatePlugin extends JavaPlugin {
      * @return          Returns "true" if the Rule is removed
      */
     public boolean RemoveRule(String rulename) {
-        return SavePlayerStateRuleManager.getInstance().removeRule(rulename);
+        try{
+            return SavePlayerStateRuleManager.getInstance().removeRule(rulename);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            _reporter.report(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -148,7 +219,13 @@ public class SaveStatePlugin extends JavaPlugin {
      * @return          The Count of Rules where removed
      */
     public int RemoveRuleRegex(String rulename) {
-        return SavePlayerStateRuleManager.getInstance().removeRuleRegex(rulename);
+        try{
+            return SavePlayerStateRuleManager.getInstance().removeRuleRegex(rulename);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            _reporter.report(ex);
+            throw ex;
+        }
     }
 
 }

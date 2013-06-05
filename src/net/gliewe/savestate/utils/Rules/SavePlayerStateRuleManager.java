@@ -1,14 +1,22 @@
 package net.gliewe.savestate.utils.Rules;
 
 import net.gliewe.savestate.SaveStatePlugin;
+import net.gliewe.savestate.utils.IO;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.security.CodeSource;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 /**
  * SaveState - Player an Region save Plugin for Bukkit Server
@@ -28,7 +36,8 @@ import java.util.List;
  * Date: 2013-05-28
  *
  * Changelog:
- *      no changes
+ *      V-0.3.2 2013-06-04:
+ *          - Added default rule files
  */
 
 public class SavePlayerStateRuleManager {
@@ -37,14 +46,26 @@ public class SavePlayerStateRuleManager {
 
     public static SavePlayerStateRuleManager getInstance() { return _instance; }
 
-    public static void INIT(SaveStatePlugin plugin) {
+    public static void INIT(SaveStatePlugin plugin) throws IOException {
         _instance = new SavePlayerStateRuleManager(plugin);
     }
 
     private List<ISavePlayerStateRule> _rules = new ArrayList<>();
 
+    private SaveStatePlugin _plugin;
+
     public SavePlayerStateRuleManager(SaveStatePlugin plugin) {
+        _plugin = plugin;
+
         registerRule(new SavePlayerStateDefaultRule());
+
+
+        try {
+            this.copyDefaultRules(plugin);
+        } catch (IOException e) {
+            Bukkit.getLogger().warning("[SaveState] Error while copying default rules:");
+            e.printStackTrace();
+        }
 
         for(File file: plugin.getDataFolder().listFiles())
             if(file.isFile()) {
@@ -121,4 +142,56 @@ public class SavePlayerStateRuleManager {
             return o.Value - Value;
         }
     }
+
+    public void copyDefaultRules(Plugin plugin) throws IOException {
+
+        //Get all files from jar
+        CodeSource src = plugin.getClass().getProtectionDomain().getCodeSource();
+        //and put all rules into this list
+        Map<String,ZipEntry> loadlist = new HashMap<>();
+
+        if (src == null)
+            return;
+
+        URL jar = src.getLocation();
+        Bukkit.getLogger().info(jar.toString());
+        ZipFile zipfile = new ZipFile(jar.getFile());
+        ZipInputStream zip = new ZipInputStream(jar.openStream());
+
+        ZipEntry ze = null;
+
+        //Search for rules
+        while( ( ze = zip.getNextEntry() ) != null ) {
+            String entryName = ze.getName();
+            if( entryName.matches("^defaultrules/rule_[\\w]*\\.yml$") ) {
+                Bukkit.getLogger().info("[SaveState] found default rule: " + entryName);
+                loadlist.put(entryName, ze);
+            }
+        }
+
+        //Make sure the folder exists
+        _plugin.getDataFolder().mkdirs();
+
+        for(String filepath : loadlist.keySet()) {
+            //Get directory an name
+            String[] splited = filepath.split("/");
+
+            //The destination file
+            File destination = new File(_plugin.getDataFolder().getPath() + "/" + splited[1]);
+
+            if(destination.exists())
+                continue;
+
+            Bukkit.getLogger().info("[SaveState] copy default rule: " + filepath);
+
+            //Copy the recource to file
+            InputStream in = zipfile.getInputStream(zipfile.getEntry(filepath));
+            if(in != null)
+                IO.copy(in, destination);
+            else
+                Bukkit.getLogger().warning("[SaveState] cannot find recource " + filepath);
+        }
+    }
+
+
 }

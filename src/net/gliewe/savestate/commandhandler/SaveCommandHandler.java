@@ -124,6 +124,7 @@ public class SaveCommandHandler implements CommandExecutor {
         }catch(Exception ex) {
             sender.sendMessage(ChatColor.RED + "ERROR");
             ex.printStackTrace();
+            _plugin.getErrorReporter().report(ex);
         }
         return true;
     }

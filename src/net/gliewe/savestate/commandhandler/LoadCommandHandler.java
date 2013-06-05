@@ -14,8 +14,6 @@ package net.gliewe.savestate.commandhandler;
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * Authors: Kevin Gliewe
- * Date: 2013-05-23
  *
  * Authors: Kevin Gliewe
  * Date: 2013-05-23
@@ -130,6 +128,7 @@ public class LoadCommandHandler implements CommandExecutor {
         }catch(Exception ex) {
             sender.sendMessage(ChatColor.RED + "ERROR");
             ex.printStackTrace();
+            _plugin.getErrorReporter().report(ex);
         }
         return true;
     }

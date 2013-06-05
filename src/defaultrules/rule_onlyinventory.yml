@@ -1,0 +1,16 @@
+#Savename RegEx pattern
+savename: ^onlyinventory[\S]*$
+
+#Playername RegEx pattern
+playername: ^[\S]+$
+
+#In any rule is not in this List,
+#this default Value will be used.
+default: false
+
+
+#Save the armor-inventory of the Player
+armor: true
+
+#Save the inventory of the Player (not the armor)
+inventory: true

@@ -1,0 +1,8 @@
+
+# Version 0.3.2
+# Vom 2013-06-04
+
+#----------------------------ERROR REPORTING----------------------------------------
+
+#If this is true, errors of this plugin will be reported to my Server automatically.
+reporting: true

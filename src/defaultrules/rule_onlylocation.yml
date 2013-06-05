@@ -1,0 +1,21 @@
+#Savename RegEx pattern
+savename: ^onlylocation[\S]*$
+
+#Playername RegEx pattern
+playername: ^[\S]+$
+
+#In any rule is not in this List,
+#this default Value will be used.
+default: false
+
+#Save the location of the Player
+location: true
+
+#Save if the player is flying
+isflying: true
+
+#Save the current falldistance of the Player
+falldistance: true
+
+#Save the velocity of the Player
+velocity: true
