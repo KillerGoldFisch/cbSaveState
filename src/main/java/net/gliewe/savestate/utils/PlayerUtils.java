@@ -116,6 +116,7 @@ public class PlayerUtils {
             }
 
             config.set("inventory", items);
+            //config.set("offhand", player.getInventory().getItemInOffHand());
         }
 
         if(rule.getSavePotions()) {

@@ -35,6 +35,7 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.data.DataException;
 import net.gliewe.savestate.commandhandler.LoadCommandHandler;
 import net.gliewe.savestate.commandhandler.SaveCommandHandler;
+import net.gliewe.savestate.utils.BuildInfo;
 import net.gliewe.savestate.utils.ErrorReporter;
 import net.gliewe.savestate.utils.PlayerUtils;
 import net.gliewe.savestate.utils.Rules.ISavePlayerStateRule;
@@ -55,6 +56,11 @@ public class SaveStatePlugin extends JavaPlugin {
 
     @Override
     public void onEnable(){
+        System.out.println("<SaveState>");
+        for(String line : BuildInfo.getInfoText().split("\n"))
+            System.out.println("    " + line);
+        System.out.println("</SaveState>");
+
         this.saveDefaultConfig();
 
         if(_reporter == null)
